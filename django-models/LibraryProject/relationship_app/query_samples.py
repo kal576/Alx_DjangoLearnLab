@@ -16,5 +16,6 @@ def listing_books(library_name):
 
 #retrieving librarian for a library
 def librarians(librarian_name):
-    librarian = Librarian.objects.get(librarian_name=name)
+    library = Librarian.objects.get(name=librarian_name)
+    librarian = library.objects.get(library=library)
     print(f"{name} is the librarian for {libray}")
