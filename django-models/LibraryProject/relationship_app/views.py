@@ -45,12 +45,12 @@ def is_member(user):
 
 @user_passes_test(is_admin)
 def admin_view(request):
-    return render(request, 'admin_view.html', {'message': 'Welcome, Admin!'})
+    return render(request, 'relationship_app/admin_view.html', {'message': 'Welcome, Admin!'})
 
 @user_passes_test(is_admin)
 def librarian_view(request):
-    return render(request, 'librarian_view.html', {'message': 'Welcome, Librarian!'})
+    return render(request, 'relationship_app/librarian_view.html', {'message': 'Welcome, Librarian!'})
 
 @user_passes_test(is_admin)
 def member_view(request):
-    return render(request, 'member_view.html', {'message': 'Welcome, Member!'})
+    return render(request, 'relationship_app/member_view.html', {'message': 'Welcome, Member!'})
