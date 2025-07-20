@@ -10,7 +10,7 @@ def books_by_author(author_name):
 #listing all books in a library
 def listing_books(library_name):
     library = Library.objects.get(name=library_name)
-    books = ibrary.objects.all()
+    books = library.books.all()
     for book in books:
         print(f"{book.title}")
 
