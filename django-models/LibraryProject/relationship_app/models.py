@@ -9,7 +9,7 @@ ROLE_CHOICES = (
     ('Member', 'Member'),
 )
 
-class UserProfile(models.model):
+class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
