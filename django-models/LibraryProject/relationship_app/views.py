@@ -4,6 +4,7 @@ from .models import Book
 from .models import Library
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth.decorators import user_passes_test
 
 # Function-based view to display all books
 def list_books(request):
@@ -31,3 +32,25 @@ def register_user(request):
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
+
+#role based access
+def is_admin(user):
+    return user.is_authenticated adn user.userprofile.role == 'Admin'
+
+def is_librarian(user):
+    return user.is_authenticated adn user.userprofile.role == 'Librarian'
+
+def is_member(user):
+    return user.is_authenticated adn user.userprofile.role == 'Member'
+
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'admin_view.html', {'message': 'Welcome, Admin!'})
+
+@user_passes_test(is_admin)
+def librarian_view(request):
+    return render(request, 'librarian_view.html', {'message': 'Welcome, Librarian!'})
+
+@user_passes_test(is_admin)
+def member_view(request):
+    return render(request, 'member_view.html', {'message': 'Welcome, Member!'})
