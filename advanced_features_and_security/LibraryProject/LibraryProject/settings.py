@@ -33,12 +33,18 @@ X_FRAME_OPTIONS = 'DENY' #prevents clickjacking by denying iframe embedding
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+
+
 CSP_DEFAULT_SRC = ("'self'",)  # Allow only same-origin content
 CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')  # Allow Google Fonts
 CSP_SCRIPT_SRC = ("'self'",)  # Disallow inline scripts
 
 #redirect all HTTP traffic to HTTPS
 SECURE_SSL_REDIRECT = True
+
+#header that indicates HTTPS when behind a proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 #enabling HTTP Strict Transport Security (HSTS)
 SECURE_HSTS_SECONDS = 31536000 #1 Year
