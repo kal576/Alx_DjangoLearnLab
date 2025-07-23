@@ -29,7 +29,7 @@ SECURE_BROWSER_XSS_FILTER = True #enables browser xss protection
 SECURE_CONTENT_TYPE_NOSNIFF = True #prevents MIME type sniffing(guessing file types)
 X_FRAME_OPTIONS = 'DENY' #prevents clickjacking by denying iframe embedding
 
-#these two prebent cookies from being stolen over unencrypted HTTP
+#these two prevent cookies from being stolen over unencrypted HTTP
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
@@ -37,6 +37,13 @@ CSP_DEFAULT_SRC = ("'self'",)  # Allow only same-origin content
 CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')  # Allow Google Fonts
 CSP_SCRIPT_SRC = ("'self'",)  # Disallow inline scripts
 
+#redirect all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True
+
+#enabling HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000 #1 Year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 ALLOWED_HOSTS = []
 
