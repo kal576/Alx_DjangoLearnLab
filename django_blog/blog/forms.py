@@ -9,3 +9,16 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
+class PostForm(model.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["title", "content"]  #2 author excluded (set automatically)
+
+    def save(self, commit=True, user=None):
+        post = super().save(commit=False)
+        if user is not None:
+            post.author = user   # assign logged-in user as author
+        if commit:
+            post.save()
+        return post
+

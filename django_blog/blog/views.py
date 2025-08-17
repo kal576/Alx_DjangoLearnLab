@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django import forms
 from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contriv.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from .models import Post
 
 def register_view(request):
     """Django's inbuilt authenticatioin view"""
@@ -54,3 +57,38 @@ def profile_view(request):
         form = ProfileForm(instance=request.user)
 
     return render(request, "blog/profile.html", {"form": form})
+
+class PostListView(ListView):
+    model = Post
+    context_object_name = "posts"
+
+
+class PostDetailView(DetailView):
+    model = Post
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ["title", "content"]
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ["title", "content"]
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy("post-list")
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
