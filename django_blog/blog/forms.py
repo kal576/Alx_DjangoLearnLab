@@ -12,9 +12,13 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2')
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(
+        required=False,
+    )
+
     class Meta:
         model = Post
-        fields = ["title", "content"]  #2 author excluded (set automatically)
+        fields = ["title", "content", "tags"]  #2 author excluded (set automatically)
 
     def save(self, commit=True, user=None):
         post = super().save(commit=False)

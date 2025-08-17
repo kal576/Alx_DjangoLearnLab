@@ -12,6 +12,21 @@ from django.urls import reverse_lazy, reverse
 from django.urls import reverse_lazy, reverse
 from .models import Post, Comment
 from .forms import CommentForm
+from django.db.models import Q
+from django.shortcuts import render
+
+def post_search(request):
+    query = request.GET.get("q", "")
+    results = []
+
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()  # distinct to avoid duplicates from many-to-many joins
+
+    return render(request, "blog/post_search.html", {"query": query, "results": results})
 
 def register_view(request):
     """Django's inbuilt authenticatioin view"""
@@ -153,3 +168,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return reverse("post-detail", kwargs={"pk": self.object.post.pk})
 
+def posts_by_tag(request, tag_name):
+    tag = get_object_or_404(Tag, name=tag_name)
+    posts = Post.objects.filter(tags=tag)
+    return render(request, "blog/posts_by_tag.html", {"tag": tag, "posts": posts})
