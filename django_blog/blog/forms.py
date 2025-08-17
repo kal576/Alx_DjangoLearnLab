@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Comment
+from .models import Post
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -9,7 +11,7 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-class PostForm(model.ModelForm):
+class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["title", "content"]  #2 author excluded (set automatically)
@@ -21,4 +23,10 @@ class PostForm(model.ModelForm):
         if commit:
             post.save()
         return post
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["content"]
+
 
