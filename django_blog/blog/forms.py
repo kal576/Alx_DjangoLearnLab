@@ -12,6 +12,26 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2')
 
 class PostForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple  # could also use forms.SelectMultiple
+    )
+
+    class Meta:
+        model = Post
+        fields = ["title", "content", "tags"]
+
+    def save(self, commit=True, user=None):
+        post = super().save(commit=False)
+        if user is not None:
+            post.author = user
+        if commit:
+            post.save()
+            self.save_m2m()  # save tags relation
+        return post
+
+class PostForm(forms.ModelForm):
     tags = forms.CharField(
         required=False,
     )
