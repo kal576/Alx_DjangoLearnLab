@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#!/home/caleb/Desktop/alx/Alx_DjangolearnLab/myenv/bin/python3
-=======
 #!/home/caleb/Desktop/alx/Alx_DjangoLearnLab/myenv/bin/python3
->>>>>>> 5ee9ac66ff73c3f7ba6e0998a01fdf33be588c85
 # -*- coding: utf-8 -*-
 import re
 import sys
